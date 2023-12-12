@@ -5,7 +5,7 @@
 Let's check the requirements :
 
 - ```Python 3.10 or newer```
-- ```Pip installed``` 
+- ```pip installed``` 
 
 Installation steps :
 - 
