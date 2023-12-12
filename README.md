@@ -28,7 +28,6 @@ Project Beggining :
 
 Let's create our Project File :
  
-  - run the command : django-admin startproject mysite
   - cd into your new project folder 
   - run the command : ```python manage.py runserver```
   
