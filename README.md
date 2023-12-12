@@ -21,7 +21,7 @@ Installation steps :
 
    4. now that we have our venv activated lets install Django by running the command :
    
-        ```pip install Django```
+        ```pip install -r requirements.txt```
 
 Project Beggining :
  -
