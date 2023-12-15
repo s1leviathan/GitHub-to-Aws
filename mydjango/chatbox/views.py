@@ -19,12 +19,14 @@ def user_login(request):
         form = AuthenticationForm()
     return render(request, 'chatbox/login.html', {'form': form})
 
+@login_required
 def chat_view(request):
     user_profile = UserProfile.objects.get(user=request.user)
     conversations = Conversation.objects.filter(participants=user_profile)
     
     return render(request, 'chatbox/chat.html', {'conversations': conversations})
 
+@login_required
 def view_conversation(request, conversation_id):
     conversation = get_object_or_404(Conversation, id=conversation_id)
     messages = Message.objects.filter(conversation=conversation)
@@ -38,3 +40,10 @@ def view_conversation(request, conversation_id):
             sending_message_reply = Message.create_sending_message_reply(conversation, user_profile)
 
     return render(request, 'chatbox/conversation.html', {'conversation': conversation, 'messages': messages})
+
+
+@login_required
+def chat_list(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+    conversations = Conversation.objects.filter(participants=user_profile)
+    return render(request, 'chatbox/chat_list.html', {'conversations': conversations})
