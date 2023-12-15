@@ -9,6 +9,11 @@ class UserProfile(models.Model):
         return self.user.username
 
 
+class Conversation(models.Model):
+    participants = models.ManyToManyField(UserProfile, related_name='conversations')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 class Message(models.Model):
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='messages')
     sender = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='sent_messages')
@@ -16,9 +21,11 @@ class Message(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
 
-class Conversation(models.Model):
-    participants = models.ManyToManyField(UserProfile, related_name='conversations')
-    created_at = models.DateTimeField(auto_now_add=True)
+    def create_sending_message_reply(cls, conversation, sender):
+        return cls.objects.create(conversation=conversation, sender=sender, content='Sending Message, please wait')
+
+
+
 
 
 
