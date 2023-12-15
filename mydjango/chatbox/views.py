@@ -22,4 +22,4 @@ def chat_view(request):
     user_profile = UserProfile.objects.get(user=request.user)
     conversations = Conversation.objects.filter(participants=user_profile)
     
-    return render(request, 'chat_app/chat.html', {'conversations': conversations})
+    return render(request, 'chatbox/chat.html', {'conversations': conversations})
