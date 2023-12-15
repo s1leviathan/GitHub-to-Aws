@@ -14,3 +14,17 @@ class Message(models.Model):
     sender = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='sent_messages')
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
+
+
+class Conversation(models.Model):
+    participants = models.ManyToManyField(UserProfile, related_name='conversations')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+
+
+
+
+
+
+
