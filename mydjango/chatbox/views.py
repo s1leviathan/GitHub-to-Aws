@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
+from .models import Conversation, Message, UserProfile
 
 def user_login(request):
     if request.method == 'POST':
@@ -16,3 +17,9 @@ def user_login(request):
     else:
         form = AuthenticationForm()
     return render(request, 'chatbox/login.html', {'form': form})
+
+def chat_view(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+    conversations = Conversation.objects.filter(participants=user_profile)
+    
+    return render(request, 'chat_app/chat.html', {'conversations': conversations})
