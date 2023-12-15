@@ -1,7 +1,8 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404 
 from .models import Conversation, Message, UserProfile
 
 def user_login(request):
@@ -23,3 +24,17 @@ def chat_view(request):
     conversations = Conversation.objects.filter(participants=user_profile)
     
     return render(request, 'chatbox/chat.html', {'conversations': conversations})
+
+def view_conversation(request, conversation_id):
+    conversation = get_object_or_404(Conversation, id=conversation_id)
+    messages = Message.objects.filter(conversation=conversation)
+    user_profile = UserProfile.objects.get(user=request.user)
+
+    if request.method == 'POST':
+        message_content = request.POST.get('message_content', '')
+        
+        if message_content:
+            user_message = Message.objects.create(conversation=conversation, sender=user_profile, content=message_content)
+            sending_message_reply = Message.create_sending_message_reply(conversation, user_profile)
+
+    return render(request, 'chatbox/conversation.html', {'conversation': conversation, 'messages': messages})
