@@ -47,3 +47,6 @@ def chat_list(request):
     user_profile = UserProfile.objects.get(user=request.user)
     conversations = Conversation.objects.filter(participants=user_profile)
     return render(request, 'chatbox/chat_list.html', {'conversations': conversations})
+
+def home_view(request):
+    return render(request, 'chatbox/home.html')
