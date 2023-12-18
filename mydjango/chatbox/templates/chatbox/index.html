@@ -1,0 +1,19 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbox</title>
+</head>
+<body>
+    <h1>Chatbox</h1>
+    
+    <h2>Users</h2>
+    <a href="{% url 'chatbox:user_list' %}">User List</a>
+    
+    <h2>Conversations</h2>
+    <a href="{% url 'chatbox:conversation_list' %}">Conversation List</a>
+    
+    <h2>Messages</h2>
+    <a href="{% url 'chatbox:message_list' %}">Message List</a>
+</body>
+</html>

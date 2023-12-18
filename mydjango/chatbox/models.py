@@ -1,37 +1,25 @@
 from django.db import models
-from django.contrib.auth.models import User
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    email = models.EmailField()
+class Users(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.EmailField(unique=True)
 
     def __str__(self):
-        return self.user.username
-
+        return self.name
 
 class Conversation(models.Model):
-    participants = models.ManyToManyField(UserProfile, related_name='conversations')
-    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
 
+class Messages(models.Model):
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE)
+    text = models.TextField()
+    date = models.DateField(auto_now_add=True)
 
-class Message(models.Model):
-    conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='messages')
-    sender = models.ForeignKey(UserProfile, on_delete=models.CASCADE, related_name='sent_messages')
+class IndexContent(models.Model):
+    title = models.CharField(max_length=255)
     content = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
 
-
-    def create_sending_message_reply(cls, conversation, sender):
-        return cls.objects.create(conversation=conversation, sender=sender, content='Sending Message, please wait')
-
-
-
-
-
-
-
-
-
-
-
-
+    def __str__(self):
+        return self.title
